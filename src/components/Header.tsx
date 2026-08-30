@@ -1,74 +1,100 @@
-import {Button, Grid, Image, Link as LinkGeist, Tabs, Text} from "@geist-ui/core";
-import {FaGithub, FaTelegram} from "react-icons/fa";
-import {IoMoonOutline} from "react-icons/io5";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FaGithub, FaTelegram } from 'react-icons/fa';
+import { FiCommand, FiGrid, FiFolder, FiMail } from 'react-icons/fi';
 
-interface Props2 {
-    theme?: string
-}
+export const Header: React.FC = () => {
+  const location = useLocation();
 
-interface Props {
-    themeType?: string,
-    activeTab?: string,
-    setActiveTab?: (el: string) => void,
-    switchThemes?: () => void
-}
+  const navItems = [
+    { path: '/', label: 'Overview', icon: <FiGrid className="w-4 h-4" /> },
+    { path: '/projects', label: 'Repositories', icon: <FiFolder className="w-4 h-4" /> },
+    { path: '/contacts', label: 'Contact', icon: <FiMail className="w-4 h-4" /> },
+  ];
 
-function ImageLogo({theme}: Props2) {
-    if (theme == "light") {
-        return <Image style={{filter: "invert(100%)"}} src="/src/assets/logo.jpg" alt="Logo" height="50px"/>;
-    }
-    return <Image src="/src/assets/logo.jpg" alt="Logo" style={{minHeight: "50px", minWidth: "50px"}} height="50px"
-                  width="50px"/>;
-}
+  return (
+    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#08090a]/80 border-b border-white/10 px-4 lg:px-8 py-3 transition-all">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Left: Brand Identity */}
+        <div className="flex items-center gap-6">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 p-[1px] shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+              <img
+                src="/src/assets/logo.jpg"
+                alt="Nikita Bersenev"
+                className="w-full h-full object-cover rounded-[7px]"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold tracking-tight text-white group-hover:text-indigo-300 transition-colors">
+                Nikita Bersenev
+              </span>
+              <span className="text-[11px] text-gray-400 font-mono">
+                nikitabersenev.github.io
+              </span>
+            </div>
+          </Link>
 
-export const Header = ({themeType, setActiveTab, switchThemes, activeTab}: Props) => {
-    return (
-        <>
-            <Grid.Container alignItems="flex-start" height={2} marginTop={-2} direction={"row"}>
-                <Grid xs={4} sm={3} md={2} lg={1} justify="flex-start" alignContent={"center"} alignItems={"center"}
-                      direction={"row"}
-                      height={1}>
-                    <ImageLogo theme={themeType}/>
-                </Grid>
-                <Grid xs={4} sm={3} md={2} lg={1} alignContent={"center"} alignItems={"center"} direction={"row"}
-                      height={2}
-                      justify="flex-start">
-                    <Text h3>Habe</Text>
-                </Grid>
-                <Grid xs={0} sm={15} md={16} lg={20} justify={"center"} alignContent={"center"} alignItems={"center"}
-                      direction={"row"}
-                      height={2}>
-                    <Tabs hideDivider hideBorder value={activeTab} onChange={setActiveTab}>
-                        <Tabs.Item value="" label="Home"/>
-                        <Tabs.Item value="blog" label="Blog"/>
-                        <Tabs.Item value="projects" label="Projects"/>
-                        <Tabs.Item value="contacts" label="Contacts"/>
-                    </Tabs>
-                </Grid>
-                <Grid xs={0} sm={3} md={4} lg={2} justify={"flex-start"} alignContent={"center"} alignItems={"center"}
-                      direction={"row"}
-                      height={2}>
-                    <LinkGeist placeholder onPointerEnterCapture onPointerLeaveCapture
-                               href="https://github.com/NikitaBersenev" marginRight="10px" target="_blank">
-                        <FaGithub/> </LinkGeist>
-                    <LinkGeist placeholder onPointerEnterCapture onPointerLeaveCapture href="https://t.me/lewyngal"
-                               marginRight="10px" target="_blank"><FaTelegram/></LinkGeist>
-                    <Button onClick={switchThemes}
-                            placeholder onPointerEnterCapture onPointerLeaveCapture
-                            iconRight={<><IoMoonOutline fontSize="40px"/> &nbsp; Theme</>} auto
-                            scale={10 / 70}/>
-                </Grid>
-            </Grid.Container>
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 pl-4 border-l border-white/10">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    isActive
+                      ? 'bg-white/10 text-white shadow-sm border border-white/15'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
-            <div style={{
-                position: "absolute",
-                top: "60px",
-                zIndex: 123123,
-                height: "calc(0.0625 * 16px)",
-                backgroundColor: "#333",
-                width: "200%",
-                left: -100
-            }}/>
-        </>
-    );
-}
+        {/* Right: Actions & Social Links */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-[11px] font-mono text-gray-400">
+            <FiCommand className="w-3 h-3 text-indigo-400" />
+            <span>K</span>
+            <span className="text-[10px] text-gray-500 ml-1">Quick Switcher</span>
+          </div>
+
+          <a
+            href="https://github.com/NikitaBersenev"
+            target="_blank"
+            rel="noreferrer"
+            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors border border-transparent hover:border-white/10"
+            title="GitHub Profile"
+          >
+            <FaGithub className="w-4 h-4" />
+          </a>
+
+          <a
+            href="https://t.me/lewyngal"
+            target="_blank"
+            rel="noreferrer"
+            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors border border-transparent hover:border-white/10"
+            title="Telegram"
+          >
+            <FaTelegram className="w-4 h-4" />
+          </a>
+
+          <a
+            href="https://github.com/NikitaBersenev/nikitabersenev.github.io"
+            target="_blank"
+            rel="noreferrer"
+            className="linear-btn linear-btn-primary text-xs !py-1.5 !px-3"
+          >
+            GitHub Pages
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+};
