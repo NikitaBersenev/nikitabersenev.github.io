@@ -3,8 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="description" content="GitHub projects by NikitaBersenev" />
+    <script>
+      try {
+        const themes = ['dark', 'grunge', 'swiss', 'geist', 'claude'];
+        const savedTheme = localStorage.getItem('projects_theme');
+        const savedDark = localStorage.getItem('projects_dark_mode');
+        document.documentElement.dataset.theme = themes.includes(savedTheme) ? savedTheme : 'dark';
+        document.documentElement.dataset.mode = savedDark === null || savedDark === 'true' ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+        document.documentElement.dataset.mode = 'dark';
+      }
+    </script>
     <title>Projects</title>
   </head>
   <body>

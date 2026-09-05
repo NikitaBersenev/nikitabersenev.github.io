@@ -172,22 +172,44 @@ export function App() {
     const saved = localStorage.getItem('projects_theme') as ThemeName | null;
     return THEMES.some(([value]) => value === saved) ? saved! : 'dark';
   });
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('projects_dark_mode');
+    return saved === null ? true : saved === 'true';
+  });
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem('projects_theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    document.documentElement.dataset.mode = darkMode ? 'dark' : 'light';
+    localStorage.setItem('projects_dark_mode', String(darkMode));
+  }, [darkMode]);
+
   return (
     <>
-      <label className="theme-picker">
-        <span>theme</span>
-        <select value={theme} onChange={(event) => setTheme(event.target.value as ThemeName)}>
-          {THEMES.map(([value, label]) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </select>
-      </label>
+      <div className="theme-controls">
+        <label className="theme-picker">
+          <span>theme</span>
+          <select value={theme} onChange={(event) => setTheme(event.target.value as ThemeName)}>
+            {THEMES.map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
+        </label>
+        <label className="mode-switch">
+          <span className="mode-label">dark</span>
+          <input
+            type="checkbox"
+            role="switch"
+            aria-label="Dark mode"
+            checked={darkMode}
+            onChange={(event) => setDarkMode(event.target.checked)}
+          />
+          <span className="switch-track" aria-hidden="true"><span /></span>
+        </label>
+      </div>
 
       <Routes>
         <Route path="/" element={<ProjectsPage />} />
