@@ -85,7 +85,7 @@ git commit -m "%COMMIT_MSG%"
 echo.
 echo [*] Отправляю код на GitHub (ветка main)...
 git branch -M main
-git push -u origin main
+git push -u origin main --force
 
 if %errorlevel% neq 0 (
     echo.
@@ -125,7 +125,7 @@ echo [*] Шаг 1/2: Коммит и push в main...
 git add .
 git commit -m "Update portfolio and blog"
 git branch -M main
-git push -u origin main
+git push -u origin main --force
 
 echo.
 echo [*] Шаг 2/2: Прямая сборка и отправка в gh-pages...
