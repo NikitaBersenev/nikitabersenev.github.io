@@ -44,7 +44,7 @@ if %errorlevel% neq 0 (
     echo [*] Remote origin не найден.
     echo.
     echo В какой репозиторий выложить проект?
-    echo 1) https://github.com/NikitaBersenev/nikitabersenev.github.io.git  (По умолчанию для GitHub Pages)
+    echo 1) git@github.com:NikitaBersenev/nikitabersenev.github.io.git  (SSH - по умолчанию)
     echo 2) Ввести другой URL репозитория вручную
     echo.
     set /p REPO_CHOICE="Выберите 1 или 2 [нажмите Enter для 1]: "
@@ -53,7 +53,7 @@ if %errorlevel% neq 0 (
         set /p CUSTOM_URL="Введите полный URL репозитория: "
         git remote add origin %CUSTOM_URL%
     ) else (
-        git remote add origin https://github.com/NikitaBersenev/nikitabersenev.github.io.git
+        git remote add origin git@github.com:NikitaBersenev/nikitabersenev.github.io.git
     )
     echo.
     echo [+] Remote origin успешно добавлен!
