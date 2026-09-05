@@ -2,49 +2,155 @@
   box-sizing: border-box;
 }
 
-:root {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  color: #fff;
-  background: #000;
+:root,
+html[data-theme='dark'] {
+  --bg: #000000;
+  --fg: #ffffff;
+  --muted: #ffffff;
+  --line: #ffffff;
+  --surface: #000000;
+  --accent: #ffffff;
+  --accent-contrast: #000000;
+  --font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --display-font: var(--font);
+  --radius: 0px;
+  --page-width: 760px;
+  --texture: none;
   color-scheme: dark;
-  line-height: 1.6;
-  font-synthesis: none;
 }
 
-html,
-body,
-#root {
+html[data-theme='grunge'] {
+  --bg: #2e2e2e;
+  --fg: #e9e1d4;
+  --muted: #b5a642;
+  --line: #8c2727;
+  --surface: #35342f;
+  --accent: #b5a642;
+  --accent-contrast: #2e2e2e;
+  --font: 'Courier New', Courier, monospace;
+  --display-font: 'Courier New', Courier, monospace;
+  --radius: 8px;
+  --page-width: 900px;
+  --texture:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px),
+    radial-gradient(circle at 20% 20%, rgba(181,166,66,.06), transparent 32%),
+    radial-gradient(circle at 80% 60%, rgba(140,39,39,.08), transparent 28%);
+  color-scheme: dark;
+}
+
+html[data-theme='swiss'] {
+  --bg: #ffffff;
+  --fg: #000000;
+  --muted: #808080;
+  --line: #000000;
+  --surface: #f5f1e8;
+  --accent: #000000;
+  --accent-contrast: #ffffff;
+  --font: Arial, Helvetica, sans-serif;
+  --display-font: Arial, Helvetica, sans-serif;
+  --radius: 0px;
+  --page-width: 980px;
+  --texture: none;
+  color-scheme: light;
+}
+
+html[data-theme='geist'] {
+  --bg: #fafafa;
+  --fg: #171717;
+  --muted: #8f8f8f;
+  --line: #ebebeb;
+  --surface: #ffffff;
+  --accent: #0070f3;
+  --accent-contrast: #ffffff;
+  --font: Arial, Helvetica, sans-serif;
+  --display-font: Arial, Helvetica, sans-serif;
+  --radius: 12px;
+  --page-width: 900px;
+  --texture: none;
+  color-scheme: light;
+}
+
+html[data-theme='claude'] {
+  --bg: #faf9f5;
+  --fg: #141413;
+  --muted: #6c6a64;
+  --line: #e6dfd8;
+  --surface: #efe9de;
+  --accent: #cc785c;
+  --accent-contrast: #ffffff;
+  --font: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --display-font: Garamond, 'Times New Roman', serif;
+  --radius: 12px;
+  --page-width: 900px;
+  --texture: none;
+  color-scheme: light;
+}
+
+html, body, #root {
   min-height: 100%;
   margin: 0;
-  background: #000;
-  color: #fff;
+  background: var(--bg);
+  color: var(--fg);
 }
 
 body {
   min-width: 320px;
+  font-family: var(--font);
+  line-height: 1.6;
+  background-image: var(--texture);
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 ::selection {
-  background: #fff;
-  color: #000;
-}
-.page {
-  width: min(760px, calc(100% - 40px));
-  margin: 0 auto;
-  padding: 64px 0 96px;
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 
-h1,
-h2,
-h3 {
+.page {
+  width: min(var(--page-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 72px 0 96px;
+}
+
+.theme-picker {
+  position: fixed;
+  z-index: 100;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--fg);
+  font: 12px/1.2 var(--font);
+}
+
+.theme-picker span {
+  color: var(--muted);
+}
+
+.theme-picker select {
+  border: 0;
+  outline: 0;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+h1, h2, h3 {
   margin: 0 0 20px;
-  line-height: 1.25;
+  font-family: var(--display-font);
+  line-height: 1.2;
   font-weight: 600;
-  color: #fff;
+  color: var(--fg);
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 30px;
 }
 
 h2 {
@@ -57,10 +163,11 @@ p {
 }
 
 a {
-  color: #fff;
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
 a:hover,
 a:focus-visible {
   text-decoration-thickness: 2px;
@@ -73,12 +180,16 @@ a:focus-visible {
 }
 
 .project-list li {
-  padding: 11px 0;
-  border-bottom: 1px solid #fff;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.project-list a {
+  color: var(--fg);
 }
 
 .meta {
-  color: #fff;
+  color: var(--muted);
 }
 
 .back-link {
@@ -87,19 +198,24 @@ a:focus-visible {
 
 .stats {
   margin: 30px 0;
-  border-top: 1px solid #fff;
+  border-top: 1px solid var(--line);
 }
 
 .stats > div {
   display: grid;
   grid-template-columns: 120px 1fr;
   gap: 16px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--line);
   padding: 8px 0;
 }
+
 .stats dt,
 .stats dd {
   margin: 0;
+}
+
+.stats dt {
+  color: var(--muted);
 }
 
 .languages {
@@ -109,7 +225,7 @@ a:focus-visible {
 hr {
   margin: 44px 0;
   border: 0;
-  border-top: 1px solid #fff;
+  border-top: 1px solid var(--line);
 }
 
 .markdown-body {
@@ -129,34 +245,42 @@ hr {
 
 .markdown-body blockquote {
   margin-left: 0;
-  padding-left: 16px;
-  border-left: 1px solid #fff;
+  padding: 10px 0 10px 16px;
+  border-left: 2px solid var(--accent);
+  color: var(--muted);
 }
+
 .markdown-body code,
 .markdown-body pre {
-  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .markdown-body code {
-  border: 1px solid #fff;
   padding: 1px 4px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) / 2);
+  background: var(--surface);
 }
 
 .markdown-body pre {
   overflow-x: auto;
   padding: 16px;
-  border: 1px solid #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
 
 .markdown-body pre code {
   border: 0;
   padding: 0;
+  background: transparent;
 }
 
 .markdown-body img {
   max-width: 100%;
   height: auto;
-  border: 1px solid #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .markdown-body table {
@@ -165,20 +289,119 @@ hr {
   display: block;
   overflow-x: auto;
 }
+
 .markdown-body th,
 .markdown-body td {
-  border: 1px solid #fff;
+  border: 1px solid var(--line);
   padding: 8px;
   text-align: left;
 }
 
+html[data-theme='grunge'] h1,
+html[data-theme='grunge'] h2 {
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  text-shadow: 2px 2px 0 #8c2727;
+}
+
+html[data-theme='grunge'] .project-list li:nth-child(odd) {
+  transform: rotate(-0.15deg);
+}
+
+html[data-theme='grunge'] .project-list li:nth-child(even) {
+  transform: rotate(0.12deg);
+}
+
+html[data-theme='grunge'] .theme-picker,
+html[data-theme='grunge'] .markdown-body pre {
+  box-shadow: 3px 3px 0 #8c2727;
+}
+
+html[data-theme='swiss'] h1 {
+  font-size: clamp(36px, 7vw, 72px);
+  letter-spacing: -0.055em;
+  text-transform: lowercase;
+}
+
+html[data-theme='swiss'] .project-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 3px solid var(--fg);
+}
+
+html[data-theme='swiss'] .project-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  border-bottom-color: var(--fg);
+}
+
+html[data-theme='geist'] h1 {
+  letter-spacing: -0.06em;
+  font-size: 42px;
+}
+
+html[data-theme='geist'] .project-list li,
+html[data-theme='geist'] .stats > div {
+  background: var(--surface);
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+html[data-theme='geist'] .project-list {
+  border-top: 1px solid var(--line);
+}
+
+html[data-theme='claude'] h1,
+html[data-theme='claude'] h2,
+html[data-theme='claude'] h3 {
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+html[data-theme='claude'] h1 {
+  font-size: 46px;
+}
+
+html[data-theme='claude'] .project-list li {
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+html[data-theme='claude'] .project-list a {
+  color: var(--fg);
+  text-decoration-color: var(--accent);
+}
+
+html[data-theme='claude'] .markdown-body a,
+html[data-theme='claude'] .back-link a {
+  color: var(--accent);
+}
+
 @media (max-width: 560px) {
   .page {
-    width: min(100% - 28px, 760px);
-    padding-top: 36px;
+    width: min(100% - 28px, var(--page-width));
+    padding-top: 76px;
+  }
+
+  .theme-picker {
+    top: 10px;
+    right: 10px;
+  }
+
+  .theme-picker span {
+    display: none;
   }
 
   .stats > div {
     grid-template-columns: 90px 1fr;
+  }
+
+  html[data-theme='swiss'] .project-list li {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }

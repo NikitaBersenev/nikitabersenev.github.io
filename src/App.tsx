@@ -15,6 +15,16 @@ import {
 const USERNAME = 'NikitaBersenev';
 const HIDDEN_REPOS = new Set(['nikitabersenev.github.io']);
 
+const THEMES = [
+  ['dark', 'Dark Minimal'],
+  ['grunge', '90s Grunge'],
+  ['swiss', 'Swiss'],
+  ['geist', 'Geist'],
+  ['claude', 'Claude'],
+] as const;
+
+type ThemeName = (typeof THEMES)[number][0];
+
 function Layout({ children }: { children: React.ReactNode }) {
   return <main className="page">{children}</main>;
 }
@@ -158,11 +168,32 @@ function ProjectPage() {
 }
 
 export function App() {
+  const [theme, setTheme] = useState<ThemeName>(() => {
+    const saved = localStorage.getItem('projects_theme') as ThemeName | null;
+    return THEMES.some(([value]) => value === saved) ? saved! : 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('projects_theme', theme);
+  }, [theme]);
+
   return (
-    <Routes>
-      <Route path="/" element={<ProjectsPage />} />
-      <Route path="/project/:name" element={<ProjectPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <label className="theme-picker">
+        <span>theme</span>
+        <select value={theme} onChange={(event) => setTheme(event.target.value as ThemeName)}>
+          {THEMES.map(([value, label]) => (
+            <option key={value} value={value}>{label}</option>
+          ))}
+        </select>
+      </label>
+
+      <Routes>
+        <Route path="/" element={<ProjectsPage />} />
+        <Route path="/project/:name" element={<ProjectPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
