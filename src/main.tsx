@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HashRouter } from 'react-router-dom';
 import { App } from './App';
 import './index.css';
-// Highlight.js theme for syntax highlighting
-import 'highlight.js/styles/github-dark.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <HashRouter>
+      <App />
+    </HashRouter>
   </React.StrictMode>
 );
